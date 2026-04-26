@@ -10,5 +10,6 @@ RUN mvn -B -q clean package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 ENV TZ=Asia/Shanghai
+RUN mkdir -p /var/log/apps/order-service
 COPY --from=build /app/target/app.jar /app/app.jar
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

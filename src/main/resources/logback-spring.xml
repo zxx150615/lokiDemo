@@ -3,6 +3,7 @@
 
     <springProperty scope="context" name="serviceName" source="spring.application.name" defaultValue="order-service"/>
     <springProperty scope="context" name="appEnv"      source="app.env"                  defaultValue="prod"/>
+    <springProperty scope="context" name="logFilePath" source="app.log.file"           defaultValue="/var/log/apps/order-service/app.log"/>
 
     <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -22,8 +23,29 @@
         </encoder>
     </appender>
 
+    <appender name="FILE_JSON" class="ch.qos.logback.core.FileAppender">
+        <file>${logFilePath}</file>
+        <append>true</append>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                            "service":  "${serviceName}",
+                            "env":      "${appEnv}",
+                            "level":    "%level",
+                            "traceId":  "%mdc{traceId:-}",
+                            "msg":      "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="STDOUT_JSON"/>
+        <appender-ref ref="FILE_JSON"/>
     </root>
 
 </configuration>

@@ -8,4 +8,7 @@ services:
     environment:
       SERVICE_NAME: order-service
       APP_ENV: prod
+      APP_LOG_FILE: /var/log/apps/order-service/app.log
+    volumes:
+      - /var/log/apps/order-service:/var/log/apps/order-service
     restart: unless-stopped

@@ -6,6 +6,8 @@ spring:
 
 app:
   env: ${APP_ENV:prod}
+  log:
+    file: ${APP_LOG_FILE:/var/log/apps/order-service/app.log}
 
 logging:
   level:
