@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ${SERVICE_NAME:order-service}
+  main:
+    banner-mode: off
+
+app:
+  env: ${APP_ENV:prod}
+
+logging:
+  level:
+    root: INFO

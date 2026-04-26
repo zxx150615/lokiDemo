@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty scope="context" name="serviceName" source="spring.application.name" defaultValue="order-service"/>
+    <springProperty scope="context" name="appEnv"      source="app.env"                  defaultValue="prod"/>
+
+    <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                            "service":  "${serviceName}",
+                            "env":      "${appEnv}",
+                            "level":    "%level",
+                            "traceId":  "%mdc{traceId:-}",
+                            "msg":      "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT_JSON"/>
+    </root>
+
+</configuration>
